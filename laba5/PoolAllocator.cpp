@@ -25,8 +25,8 @@ public:
 
     PoolAllocator(const PoolAllocator& other) = delete;
     PoolAllocator(PoolAllocator&& other) = delete;
-    PoolAllocator operator =(const PoolAllocator& other) = delete;
-    PoolAllocator operator =(PoolAllocator&& other) = delete;
+    PoolAllocator operator= (const PoolAllocator& other) = delete;
+    PoolAllocator operator= (PoolAllocator&& other) = delete;
 
     pointer allocate(size_t count);
     void deallocate(pointer ptr, size_t);
