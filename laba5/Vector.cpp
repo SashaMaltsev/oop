@@ -62,7 +62,7 @@ class Vector{
             }
         }
 
-        void clear() {  // не работает если T < 8 байт. нужно использовать тогда константу смещеня 
+        void clear() {
             for (size_t i = 0; i < _size; ++i) {
                 this->allocator.destroy(data + i);
                 allocator.deallocate(data + i, 1);
