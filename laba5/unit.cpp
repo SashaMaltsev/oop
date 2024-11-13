@@ -1,80 +1,72 @@
-#include "PoolAllocator.cpp"
-#include "Vector.cpp"
+#include "laba5.cpp"
+#include "gtest/gtest.h"
 
-
-#include <gtest/gtest.h>
-
-
-TEST(Test, Test1) {
-    
-    PoolAllocator<char, 4> pl;
-
-    auto ptr1 = pl.allocate(1);
-    auto ptr2 = pl.allocate(1);
-    auto ptr3 = pl.allocate(1);
-    auto ptr4 = pl.allocate(1);
-
-    pl.construct(ptr1, 1);
-    pl.construct(ptr2, 2);
-    pl.construct(ptr3, 3);
-    pl.construct(ptr4, 4);
-
-    ASSERT_EQ(*ptr1, 1);
-    ASSERT_EQ(*ptr2, 2);
-    ASSERT_EQ(*ptr3, 3);
-    ASSERT_EQ(*ptr4, 4);
-
-    pl.destroy(ptr1);
-    pl.destroy(ptr2);    
-    pl.destroy(ptr3);
-    pl.destroy(ptr4);
-
-    pl.deallocate(ptr1, 1);
-    pl.deallocate(ptr2, 1);
-    pl.deallocate(ptr3, 1);
-    pl.deallocate(ptr4, 1);
-
-}
-
-TEST(Test, Test2) {
-    
-    PoolAllocator<char, 3> pl;
-
-    auto ptr1 = pl.allocate(1);
-    auto ptr2 = pl.allocate(1);
-    auto ptr3 = pl.allocate(1);
-
-    EXPECT_THROW(pl.allocate(1), std::exception);
-}
-
-TEST(Test, Test3) {
-
-    Vector<double, PoolAllocator<double, 10>> v;
-    v.reserve(10);
-
-    v.push_back(1);
-    v.push_back(2);
-    v.push_back(3);
-    v.push_back(4);
-    v.push_back(5);
-    v.push_back(6);
-    v.push_back(7);
-    v.push_back(8);
-    v.push_back(9);
-    v.push_back(10);
-    v.pop_back();
-    v.pop_back();
-    v.pop_back();
-    v.pop_back();
-
-    for (int i = 0; i < v.size(); ++i) {
-        ASSERT_EQ(i + 1, v[i]);
+struct A {
+    int a;
+    int b;
+    int c;
+    A(int a, int b, int c) : a(a), b(b), c(c) {}
+    bool operator==(const A& other) const {
+        return a == other.a && b == other.b && c == other.c;
     }
+};
+
+TEST(DynamicArrayTest, Test1) {
+  
+  DynamicArray<int> v;
+
+    for (auto i = 0; i < 100; ++i) v.push_back(i);
+
+  ASSERT_EQ(100, v.size());
+  ASSERT_EQ(99, v[99]);
+  ASSERT_EQ(0, v[0]);
+
+}
+
+TEST(DynamicArrayTest, Test2) {
+  DynamicArray<int> v;
+
+  v.reserve(10);
+  ASSERT_EQ(0, v.size());
 
 }
 
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+
+TEST(DynamicArrayTest, Test3) {
+   
+   DynamicArray<int> v;
+
+    int a = 0;
+
+  v.push_back(1);
+  v.push_back(2);
+  v.push_back(3);
+  v.push_back(4);
+  v.push_back(5);
+
+
+  for (int i : v) {
+    ASSERT_EQ(i, a++);
+  }
+}
+
+
+TEST(DynamicArrayTest, Test4) {
+   
+   DynamicArray<A> v;
+
+    v.push_back((A{1, 2, 3}));
+    v.push_back((A{2, 4, 5}));
+
+    ASSERT_EQ(2, v.size());
+    ASSERT_EQ((A{1, 2, 3}), v[0]);
+}
+
+
+
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
