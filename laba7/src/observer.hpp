@@ -1,11 +1,5 @@
 #include "npc.hpp"
 
-// class Observer {
-// public:
-//     virtual void on_fight(const std::shared_ptr<NPC>, const std::shared_ptr<NPC>, bool) = 0;
-// };
-
-
 class TextObserver : public Observer {
 public:
     static std::shared_ptr<Observer> get() {
