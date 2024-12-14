@@ -1,5 +1,5 @@
 #pragma once
-// #include "npc.hpp"
+
 #include "observer.hpp"
 
 class NPCFactory {
